@@ -1,6 +1,7 @@
 const std = @import("std");
 
 const file_handler = @import("./file_handler.zig");
+const html_handler = @import("./html_generator.zig");
 
 pub fn main() !void {
     std.debug.print("Hello world!", .{});
@@ -26,8 +27,12 @@ pub fn main() !void {
         const read_data = try file_handler.get_contents(path, &allocator);
         defer allocator.free(read_data);
 
+        const jk = try html_handler.replace(&allocator, path, "md", "");
+        defer allocator.free(jk);
+
         // std.debug.print("[{d}] ", .{index});
         std.debug.print("\n--- File: {s} ---\n", .{file});
+        std.debug.print("{s}", .{jk});
         std.debug.print("{s}\n", .{read_data});
     }
 }
