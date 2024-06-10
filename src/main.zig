@@ -37,9 +37,20 @@ pub fn main() !void {
             const no_whitespace = try html_handler.filter_whitespace_on_sides(read_data, &allocator);
             defer allocator.free(no_whitespace);
 
-            // std.debug.print("[{d}] ", .{index});
+            var html_contents = std.ArrayList([]const u8).init(allocator);
+            defer {
+                for (html_contents.items) |item| allocator.free(item);
+                html_contents.deinit();
+            }
+
             std.debug.print("\n--- File: {s} ---\n", .{file});
-            std.debug.print("{s}\n", .{no_whitespace});
+            try html_handler.break_into_lines(no_whitespace, &html_contents, &allocator);
+
+            // std.debug.print("[{d}] ", .{index});
+            for (0.., html_contents.items) |index, line| {
+                std.debug.print("{d} - ", .{index});
+                std.debug.print("{s}\n", .{line});
+            }
         }
     }
 }
