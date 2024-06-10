@@ -17,3 +17,23 @@ pub fn get_files(dir_path: []const u8, files_list: *std.ArrayList([]const u8), a
         try files_list.append(try allocator.dupe(u8, file.name));
     }
 }
+
+pub fn try_create_dir(path: []const u8) !void {
+    std.fs.cwd().makeDir(path) catch |err| switch (err) {
+        error.PathAlreadyExists => {
+            std.log.info("\"{s}\" already exists.\n\n", .{path});
+            return;
+        },
+        else => return err,
+    };
+}
+
+pub fn try_delete_dir(path: []const u8) !void {
+    std.fs.cwd().deleteTree(path) catch |err| switch (err) {
+        error.NotDir => {
+            std.log.info("\"{s}\" already exists.\n\n", .{path});
+            return;
+        },
+        else => return err,
+    };
+}
