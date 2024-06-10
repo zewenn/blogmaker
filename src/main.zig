@@ -34,9 +34,12 @@ pub fn main() !void {
             const read_data = try file_handler.get_contents(path, &allocator);
             defer allocator.free(read_data);
 
+            const no_whitespace = try html_handler.filter_whitespace_on_sides(read_data, &allocator);
+            defer allocator.free(no_whitespace);
+
             // std.debug.print("[{d}] ", .{index});
             std.debug.print("\n--- File: {s} ---\n", .{file});
-            std.debug.print("{s}\n", .{read_data});
+            std.debug.print("{s}\n", .{no_whitespace});
         }
     }
 }
