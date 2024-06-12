@@ -17,6 +17,11 @@ pub fn main() !void {
         try file_handler.try_create_dir("dist");
     }
 
+    const css_file_contents = try file_handler.get_contents("public/style.css", &allocator);
+    defer allocator.free(css_file_contents);
+
+    try file_handler.save_file("dist/style.css", css_file_contents);
+
     const html_template = try file_handler.get_contents("public/template.html", &allocator);
     defer allocator.free(html_template);
 
@@ -40,7 +45,7 @@ pub fn main() !void {
             const read_data = try file_handler.get_contents(path, &allocator);
             defer allocator.free(read_data);
 
-            const no_whitespace = try html_handler.filter_whitespace_on_sides(read_data, &allocator);
+            const no_whitespace = try html_handler.replace(&allocator, read_data, " ", "&nbsp;");
             defer allocator.free(no_whitespace);
 
             const contents_with_brs = try html_handler.replace(&allocator, no_whitespace, "\n", "\n<br>\n");

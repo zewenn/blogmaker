@@ -15,264 +15,292 @@
         if (el.innerText) {
           el.innerHTML = marked.parse(el.innerText);
         }
+
+        el.addEventListener("click", () => {
+          el.classList.contains("hidden")
+            ? el.classList.remove("hidden")
+            : el.classList.add("hidden");
+        });
       }
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css"
+    />
+    <script type="module">
+      import hljs from "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/highlight.min.js";
+      //  and it's easy to individually load additional languages
+      // import go from "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/languages/go.min.js";
+      // hljs.registerLanguage("go", go);
+      document.querySelectorAll('code').forEach(el => {
+        // then highlight each
+        hljs.highlightElement(el);
+      });
+    </script>
   </head>
-  <body><section class="post p-asd" id="asd">asdasd</section><hr><section class="post p-index" id="index"># Változók
+  <body><section class="post p-asd" id="asd">asdasd</section><hr><section class="post p-index" id="index">#&nbsp;Változók
 <br>
 
 <br>
-Ebben az anaygban változók fajtáiról, azoknak memóriában való tárolásáról és kezeléséről lesz szó.
+Ebben&nbsp;az&nbsp;anaygban&nbsp;változók&nbsp;fajtáiról,&nbsp;azoknak&nbsp;memóriában&nbsp;való&nbsp;tárolásáról&nbsp;és&nbsp;kezeléséről&nbsp;lesz&nbsp;szó.
 <br>
 
 <br>
-## Alapok
+##&nbsp;Alapok
 <br>
 
 <br>
-**Minden**, ismétlem, **minden** - _számolható értékkel rendelkező_ - váltózó egy szám. Amikor egy `boolean`-ről vagy egy `char`-ról beszélünk, igazából csak számokat kezelünk. Például minden `boolean` - tehát igaz/hamis érték - felírható 0-ás vagy 1-es értékkel is.
+**Minden**,&nbsp;ismétlem,&nbsp;**minden**&nbsp;-&nbsp;_számolható&nbsp;értékkel&nbsp;rendelkező_&nbsp;-&nbsp;váltózó&nbsp;egy&nbsp;szám.&nbsp;Amikor&nbsp;egy&nbsp;`boolean`-ről&nbsp;vagy&nbsp;egy&nbsp;`char`-ról&nbsp;beszélünk,&nbsp;igazából&nbsp;csak&nbsp;számokat&nbsp;kezelünk.&nbsp;Például&nbsp;minden&nbsp;`boolean`&nbsp;-&nbsp;tehát&nbsp;igaz/hamis&nbsp;érték&nbsp;-&nbsp;felírható&nbsp;0-ás&nbsp;vagy&nbsp;1-es&nbsp;értékkel&nbsp;is.
 <br>
 
 <br>
-Ennek demonstrálásához nem kell mélyre ásni, `python`-ban is látható:
-<br>
-
-<br>
-```py
-<br>
-if 1:
-<br>
-print("Hello world")
-<br>
-# kiírja, hogy "Hello world"
-<br>
-
-<br>
-if 0:
-<br>
-print("not hello")
-<br>
-# Nem történik semmi
-<br>
-```
-<br>
-
-<br>
-## Egyszerű Típusok
-<br>
-
-<br>
-Nyilvánvaló, hogy minden változó számként való kezelése nem a legátláthatóbb megoldás (_lásd: Hungarian Notation_), ezért a modern, programozási nyelvek különböző változó típusokat használnak.
-<br>
-
-<br>
-### Integer - egész szám
-<br>
-
-<br>
-- **Signed Integer:** Lehet negatív, ezt az első bit jelzi.
-<br>
-```txt
-<br>
-0xxx xxxx -> pozitív szám
-<br>
-1xxx xxxx -> Negatív szám
-<br>
-```
-<br>
-- **Unsigned Integer:** Nem lehet negatív, ezt az első bit jelzi.
-<br>
-
-<br>
-Python demonstráció:
+Ennek&nbsp;demonstrálásához&nbsp;nem&nbsp;kell&nbsp;mélyre&nbsp;ásni,&nbsp;`python`-ban&nbsp;is&nbsp;látható:
 <br>
 
 <br>
 ```py
 <br>
-x: int = int(32)
+if&nbsp;1:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print("Hello&nbsp;world")
+<br>
+#&nbsp;kiírja,&nbsp;hogy&nbsp;"Hello&nbsp;world"
+<br>
+
+<br>
+if&nbsp;0:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print("not&nbsp;hello")
+<br>
+#&nbsp;Nem&nbsp;történik&nbsp;semmi
 <br>
 ```
 <br>
 
 <br>
-### Float - Lebegőpontos szám ~ racionális szám
+##&nbsp;Egyszerű&nbsp;Típusok
 <br>
 
 <br>
-IEEE 754 standard alapján implementált lebegőpontos számokkal reprezentáljuk a racionális számokat.
+Nyilvánvaló,&nbsp;hogy&nbsp;minden&nbsp;változó&nbsp;számként&nbsp;való&nbsp;kezelése&nbsp;nem&nbsp;a&nbsp;legátláthatóbb&nbsp;megoldás&nbsp;(_lásd:&nbsp;Hungarian&nbsp;Notation_),&nbsp;ezért&nbsp;a&nbsp;modern,&nbsp;programozási&nbsp;nyelvek&nbsp;különböző&nbsp;változó&nbsp;típusokat&nbsp;használnak.
 <br>
 
 <br>
-A lebegőpointos számok mindig **signed**, tehát előjeles változók:
+###&nbsp;Integer&nbsp;-&nbsp;egész&nbsp;szám
+<br>
+
+<br>
+####&nbsp;Signed&nbsp;Integer:
+<br>
+Lehet&nbsp;negatív,&nbsp;ezt&nbsp;az&nbsp;első&nbsp;bit&nbsp;jelzi.
 <br>
 
 <br>
 ```txt
 <br>
-IEEE 745
+0xxx&nbsp;xxxx&nbsp;->&nbsp;pozitív&nbsp;szám
 <br>
-˙˙˙˙˙˙˙˙
-<br>
-x   xxxx xxxx   xxxxxxxxxxxxxxxxxxxxxxx
-<br>
-|   ˙˙˙˙|˙˙˙˙   ˙˙˙˙˙˙˙˙˙˙˙|˙˙˙˙˙˙˙˙˙˙˙
-<br>
-Előjel  Exponens         Mantissza
-<br>
-(S)     (E)                (M)
-<br>
-
-<br>
-f = 1.M × 2^E
-<br>
-
+1xxx&nbsp;xxxx&nbsp;->&nbsp;Negatív&nbsp;szám
 <br>
 ```
 <br>
 
 <br>
-Python demonstráció:
+####&nbsp;Unsigned&nbsp;Integer:
+<br>
+Nem&nbsp;lehet&nbsp;negatív,&nbsp;ezt&nbsp;az&nbsp;első&nbsp;bit&nbsp;jelzi.
+<br>
+
+<br>
+Python&nbsp;demonstráció:
 <br>
 
 <br>
 ```py
 <br>
-x: float = float(32.332578)
+x:&nbsp;int&nbsp;=&nbsp;int(32)
 <br>
 ```
 <br>
 
 <br>
-### Boolean - Logikai érték / Igazságérték
+###&nbsp;Float&nbsp;-&nbsp;Lebegőpontos&nbsp;szám&nbsp;~&nbsp;racionális&nbsp;szám
 <br>
 
 <br>
-A **boolean** typusú áltozók vagy igaz _(1)_ vagy hamis _(0)_ értéket hordoznak. Ilyen értéket létrehozhatunk a `true` és a `false` kulcsszavakkal, illetve **logikai operátorokkal**.
+IEEE&nbsp;754&nbsp;standard&nbsp;alapján&nbsp;implementált&nbsp;lebegőpontos&nbsp;számokkal&nbsp;reprezentáljuk&nbsp;a&nbsp;racionális&nbsp;számokat.
+<br>
+
+<br>
+A&nbsp;lebegőpointos&nbsp;számok&nbsp;mindig&nbsp;**signed**,&nbsp;tehát&nbsp;előjeles&nbsp;változók:
+<br>
+
+<br>
+```txt
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEEE&nbsp;745
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;˙˙˙˙˙˙˙˙
+<br>
+&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;xxxxxxxxxxxxxxxxxxxxxxx
+<br>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;˙˙˙˙|˙˙˙˙&nbsp;&nbsp;&nbsp;˙˙˙˙˙˙˙˙˙˙˙|˙˙˙˙˙˙˙˙˙˙˙
+<br>
+&nbsp;Előjel&nbsp;&nbsp;Exponens&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mantissza
+<br>
+&nbsp;&nbsp;(S)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(E)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(M)
+<br>
+
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;=&nbsp;1.M&nbsp;×&nbsp;2^E
+<br>
+
+<br>
+```
+<br>
+
+<br>
+Python&nbsp;demonstráció:
 <br>
 
 <br>
 ```py
 <br>
-x: bool = False # False / Hamis
-<br>
-y: bool = x == False # True / Igaz
-<br>
-z: bool = 5 > 4 # True / Igaz
+x:&nbsp;float&nbsp;=&nbsp;float(32.332578)
 <br>
 ```
 <br>
 
 <br>
-### Char - Karakter
+###&nbsp;Boolean&nbsp;-&nbsp;Logikai&nbsp;érték&nbsp;/&nbsp;Igazságérték
 <br>
 
 <br>
-Egy darab karakter, kódolástól függ a mérete, de a gyakran használt ASCII (_American Standard Character for Information Interchange_) kódolásban `u8`-ként, tehát egy unsigned 8 bit hosszú integer értékként jelenik meg.
-<br>
-
-<br>
-Több karakter összefűzése egy tömbbe vagy listába egy **string**-et,, azaz szöveget ad.
-<br>
-
-<br>
-### String - Szöveg
-<br>
-
-<br>
-Úgynevezett karakterlánc, melyet `char` változók tömbbe vagy listába helyezésével érünk el.
+A&nbsp;**boolean**&nbsp;typusú&nbsp;áltozók&nbsp;vagy&nbsp;igaz&nbsp;_(1)_&nbsp;vagy&nbsp;hamis&nbsp;_(0)_&nbsp;értéket&nbsp;hordoznak.&nbsp;Ilyen&nbsp;értéket&nbsp;létrehozhatunk&nbsp;a&nbsp;`true`&nbsp;és&nbsp;a&nbsp;`false`&nbsp;kulcsszavakkal,&nbsp;illetve&nbsp;**logikai&nbsp;operátorokkal**.
 <br>
 
 <br>
 ```py
 <br>
-x = ['H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!']
+x:&nbsp;bool&nbsp;=&nbsp;False&nbsp;#&nbsp;False&nbsp;/&nbsp;Hamis
+<br>
+y:&nbsp;bool&nbsp;=&nbsp;x&nbsp;==&nbsp;False&nbsp;#&nbsp;True&nbsp;/&nbsp;Igaz
+<br>
+z:&nbsp;bool&nbsp;=&nbsp;5&nbsp;>&nbsp;4&nbsp;#&nbsp;True&nbsp;/&nbsp;Igaz
 <br>
 ```
 <br>
 
 <br>
-Srting-ek kezelésére a magasabb szintű programnyelvekben (általában) külön típus is létezik.
+###&nbsp;Char&nbsp;-&nbsp;Karakter
+<br>
+
+<br>
+Egy&nbsp;darab&nbsp;karakter,&nbsp;kódolástól&nbsp;függ&nbsp;a&nbsp;mérete,&nbsp;de&nbsp;a&nbsp;gyakran&nbsp;használt&nbsp;ASCII&nbsp;(_American&nbsp;Standard&nbsp;Character&nbsp;for&nbsp;Information&nbsp;Interchange_)&nbsp;kódolásban&nbsp;`u8`-ként,&nbsp;tehát&nbsp;egy&nbsp;unsigned&nbsp;8&nbsp;bit&nbsp;hosszú&nbsp;integer&nbsp;értékként&nbsp;jelenik&nbsp;meg.
+<br>
+
+<br>
+Több&nbsp;karakter&nbsp;összefűzése&nbsp;egy&nbsp;tömbbe&nbsp;vagy&nbsp;listába&nbsp;egy&nbsp;**string**-et,,&nbsp;azaz&nbsp;szöveget&nbsp;ad.
+<br>
+
+<br>
+###&nbsp;String&nbsp;-&nbsp;Szöveg
+<br>
+
+<br>
+Úgynevezett&nbsp;karakterlánc,&nbsp;melyet&nbsp;`char`&nbsp;változók&nbsp;tömbbe&nbsp;vagy&nbsp;listába&nbsp;helyezésével&nbsp;érünk&nbsp;el.
 <br>
 
 <br>
 ```py
 <br>
-x: str = "Hello world!"
+x&nbsp;=&nbsp;['H',&nbsp;'e',&nbsp;'l',&nbsp;'l',&nbsp;'o',&nbsp;'&nbsp;',&nbsp;'w',&nbsp;'o',&nbsp;'r',&nbsp;'l',&nbsp;'d',&nbsp;'!']
 <br>
 ```
 <br>
 
 <br>
-De low level, tehát alacsony szintű nyelvekben (C, Zig) ez a luxus nincs meg.
+Srting-ek&nbsp;kezelésére&nbsp;a&nbsp;magasabb&nbsp;szintű&nbsp;programnyelvekben&nbsp;(általában)&nbsp;külön&nbsp;típus&nbsp;is&nbsp;létezik.
+<br>
+
+<br>
+```py
+<br>
+x:&nbsp;str&nbsp;=&nbsp;"Hello&nbsp;world!"
+<br>
+```
+<br>
+
+<br>
+De&nbsp;low&nbsp;level,&nbsp;tehát&nbsp;alacsony&nbsp;szintű&nbsp;nyelvekben&nbsp;(C,&nbsp;Zig)&nbsp;ez&nbsp;a&nbsp;luxus&nbsp;nincs&nbsp;meg.
 <br>
 
 <br>
 ```rust
 <br>
-// Zig kód, de csak a rust-lang block-kal volt syntax highlighting
+//&nbsp;Zig&nbsp;kód,&nbsp;de&nbsp;csak&nbsp;a&nbsp;rust-lang&nbsp;block-kal&nbsp;volt&nbsp;syntax&nbsp;highlighting
 <br>
-const x: const [3:0]u8 = "asd".*;
+const&nbsp;x:&nbsp;const&nbsp;[3:0]u8&nbsp;=&nbsp;"asd".*;
 <br>
 ```
 <br>
 
 <br>
-## Komplex Típusok
+##&nbsp;Komplex&nbsp;Típusok
 <br>
 
 <br>
-### Array - Tömb
+###&nbsp;Array&nbsp;-&nbsp;Tömb
 <br>
 
 <br>
-Létrehozását követően nem bővíthető, egy változótípust tartalmazó lista. Ennek az adattípusnak nincs _alapértelmezett_ megfelelője `python`-ban.
+Létrehozását&nbsp;követően&nbsp;nem&nbsp;bővíthető,&nbsp;egy&nbsp;változótípust&nbsp;tartalmazó&nbsp;lista.&nbsp;Ennek&nbsp;az&nbsp;adattípusnak&nbsp;nincs&nbsp;_alapértelmezett_&nbsp;megfelelője&nbsp;`python`-ban.
 <br>
 
 <br>
 ```rust
 <br>
-const x: [?]i32 = [_]i32{1, 2, 3, 4};
+const&nbsp;x:&nbsp;[?]i32&nbsp;=&nbsp;[_]i32{1,&nbsp;2,&nbsp;3,&nbsp;4};
 <br>
 ```
 <br>
 
 <br>
-### (Linked) List - Lista
+###&nbsp;(Linked)&nbsp;List&nbsp;-&nbsp;Lista
 <br>
 
 <br>
-Olyan adattípus, melynek minden eleme tartalmazza annak típusát, értékét és egy `pointer`-t a következő elemre. Ennek köszönhetően nem kell ugyan abból a típusból származnia minden elemnek. A lista utolsó eleme következő értékként mindig egy `null` értékre mutat.
+Olyan&nbsp;adattípus,&nbsp;melynek&nbsp;minden&nbsp;eleme&nbsp;tartalmazza&nbsp;annak&nbsp;típusát,&nbsp;értékét&nbsp;és&nbsp;egy&nbsp;`pointer`-t&nbsp;a&nbsp;következő&nbsp;elemre.&nbsp;Ennek&nbsp;köszönhetően&nbsp;nem&nbsp;kell&nbsp;ugyan&nbsp;abból&nbsp;a&nbsp;típusból&nbsp;származnia&nbsp;minden&nbsp;elemnek.&nbsp;A&nbsp;lista&nbsp;utolsó&nbsp;eleme&nbsp;következő&nbsp;értékként&nbsp;mindig&nbsp;egy&nbsp;`null`&nbsp;értékre&nbsp;mutat.
 <br>
 
 <br>
-Ezt az adattípust használjuk `python`-ban a mindennapokban.
+Ezt&nbsp;az&nbsp;adattípust&nbsp;használjuk&nbsp;`python`-ban&nbsp;a&nbsp;mindennapokban.
 <br>
 
 <br>
 ```py
 <br>
-x: list = ["Hello", 0, True, False]
+x:&nbsp;list&nbsp;=&nbsp;["Hello",&nbsp;0,&nbsp;True,&nbsp;False]
 <br>
 ```
 <br>
 
 <br>
-### Map / Dictionary
+###&nbsp;Map&nbsp;/&nbsp;Dictionary
 <br>
 
 <br>
-Kulcs-érték pár eltárárolására alkalmas adattípus. Legtöbb programozási nyelvben kötött az érték és a kulcs típusa is, de `python`-ban nem az.
+Kulcs-érték&nbsp;pár&nbsp;eltárárolására&nbsp;alkalmas&nbsp;adattípus.&nbsp;Legtöbb&nbsp;programozási&nbsp;nyelvben&nbsp;kötött&nbsp;az&nbsp;érték&nbsp;és&nbsp;a&nbsp;kulcs&nbsp;típusa&nbsp;is,&nbsp;de&nbsp;`python`-ban&nbsp;nem&nbsp;az.
 <br>
 
 <br>
 ```py
 <br>
-x: dict[str, int | float] = {
+x:&nbsp;dict[str,&nbsp;int&nbsp;|&nbsp;float]&nbsp;=&nbsp;{
 <br>
-"x": 0,
+&nbsp;&nbsp;&nbsp;&nbsp;"x":&nbsp;0,
 <br>
-"y": 1.124
+&nbsp;&nbsp;&nbsp;&nbsp;"y":&nbsp;1.124
 <br>
 }
 <br>
@@ -280,43 +308,43 @@ x: dict[str, int | float] = {
 <br>
 
 <br>
-### Function - Függvény
+###&nbsp;Function&nbsp;-&nbsp;Függvény
 <br>
 
 <br>
-Olyan adattípus, mely nem önmagában nem reprezentál értéket, de meghívható; az ekkor megadott paraméterek és programállapot alapján készít új értéket, vagy ad vissza egy már meglevőt.
+Olyan&nbsp;adattípus,&nbsp;mely&nbsp;nem&nbsp;önmagában&nbsp;nem&nbsp;reprezentál&nbsp;értéket,&nbsp;de&nbsp;meghívható;&nbsp;az&nbsp;ekkor&nbsp;megadott&nbsp;paraméterek&nbsp;és&nbsp;programállapot&nbsp;alapján&nbsp;készít&nbsp;új&nbsp;értéket,&nbsp;vagy&nbsp;ad&nbsp;vissza&nbsp;egy&nbsp;már&nbsp;meglevőt.
 <br>
 
 <br>
 ```py
 <br>
-def add(a: int, b: int) -> int:
+def&nbsp;add(a:&nbsp;int,&nbsp;b:&nbsp;int)&nbsp;->&nbsp;int:
 <br>
-return a + b
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;a&nbsp;+&nbsp;b
 <br>
 
 <br>
-z = add(1, 2)
+z&nbsp;=&nbsp;add(1,&nbsp;2)
 <br>
-# z == 3
+#&nbsp;z&nbsp;==&nbsp;3
 <br>
 ```
 <br>
 
 <br>
-### Null / Nullptr / None - Semmi
+###&nbsp;Null&nbsp;/&nbsp;Nullptr&nbsp;/&nbsp;None&nbsp;-&nbsp;Semmi
 <br>
 
 <br>
-Olyan érték, vagy olyan értékre mutató érték, amely nem tartalmaz semmit, nem létezik.
+Olyan&nbsp;érték,&nbsp;vagy&nbsp;olyan&nbsp;értékre&nbsp;mutató&nbsp;érték,&nbsp;amely&nbsp;nem&nbsp;tartalmaz&nbsp;semmit,&nbsp;nem&nbsp;létezik.
 <br>
 
 <br>
 ```py
 <br>
-# Python
+#&nbsp;Python
 <br>
-x = None
+x&nbsp;=&nbsp;None
 <br>
 ```
 <br>
@@ -324,11 +352,11 @@ x = None
 <br>
 ```c
 <br>
-// C
+//&nbsp;C
 <br>
-// #define NULL 0
+//&nbsp;#define&nbsp;NULL&nbsp;0
 <br>
-int *x = NULL;
+int&nbsp;*x&nbsp;=&nbsp;NULL;
 <br>
 ```
 <br>
@@ -336,75 +364,75 @@ int *x = NULL;
 <br>
 ```c++
 <br>
-// C++
+//&nbsp;C++
 <br>
-// "A null pointer constant is an integral constant expression (5.19) rvalue of integer type that evaluates to zero"
+//&nbsp;"A&nbsp;null&nbsp;pointer&nbsp;constant&nbsp;is&nbsp;an&nbsp;integral&nbsp;constant&nbsp;expression&nbsp;(5.19)&nbsp;rvalue&nbsp;of&nbsp;integer&nbsp;type&nbsp;that&nbsp;evaluates&nbsp;to&nbsp;zero"
 <br>
-int *x = nullptr;
+int&nbsp;*x&nbsp;=&nbsp;nullptr;
 <br>
 ```
 <br>
 
 <br>
-### Struct(ure) - *szerkezet*
+###&nbsp;Struct(ure)&nbsp;-&nbsp;*szerkezet*
 <br>
 
 <br>
-Olyan adattípus, amely több alváltozót is tartalmaz. A programozók között véleményeltérések vannak, miszerint szabad-e az imént említett alváltozóknak függvényeknek lenniük (*Object Oriented Programming*), vagy sem (*Functional Programming*). 
+Olyan&nbsp;adattípus,&nbsp;amely&nbsp;több&nbsp;alváltozót&nbsp;is&nbsp;tartalmaz.&nbsp;A&nbsp;programozók&nbsp;között&nbsp;véleményeltérések&nbsp;vannak,&nbsp;miszerint&nbsp;szabad-e&nbsp;az&nbsp;imént&nbsp;említett&nbsp;alváltozóknak&nbsp;függvényeknek&nbsp;lenniük&nbsp;(*Object&nbsp;Oriented&nbsp;Programming*),&nbsp;vagy&nbsp;sem&nbsp;(*Functional&nbsp;Programming*).&nbsp;
 <br>
 
 <br>
-*Ez hatalmas túlegyszerűsítés, és a problémák és nézeteltérések nem állnak meg itt, de itt is kimutatható és megfigyelhetó a szituáció*
+*Ez&nbsp;hatalmas&nbsp;túlegyszerűsítés,&nbsp;és&nbsp;a&nbsp;problémák&nbsp;és&nbsp;nézeteltérések&nbsp;nem&nbsp;állnak&nbsp;meg&nbsp;itt,&nbsp;de&nbsp;itt&nbsp;is&nbsp;kimutatható&nbsp;és&nbsp;megfigyelhetó&nbsp;a&nbsp;szituáció*
 <br>
 
 <br>
-Ez az adattípus főképp alacsonyabb szintű nyelvekben használt;
+Ez&nbsp;az&nbsp;adattípus&nbsp;főképp&nbsp;alacsonyabb&nbsp;szintű&nbsp;nyelvekben&nbsp;használt;
 <br>
 
 <br>
 ```rust
 <br>
-// Zig
+//&nbsp;Zig
 <br>
-const MyType = struct {
+const&nbsp;MyType&nbsp;=&nbsp;struct&nbsp;{
 <br>
-x: i32 = 0,
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;i32&nbsp;=&nbsp;0,
 <br>
-y: i32 = 0
+&nbsp;&nbsp;&nbsp;&nbsp;y:&nbsp;i32&nbsp;=&nbsp;0
 <br>
 };
 <br>
 
 <br>
-const my_thing: MyType = MyType{ .x = 126, .y = 12 };
+const&nbsp;my_thing:&nbsp;MyType&nbsp;=&nbsp;MyType{&nbsp;.x&nbsp;=&nbsp;126,&nbsp;.y&nbsp;=&nbsp;12&nbsp;};
 <br>
 ```
 <br>
 
 <br>
-de `python`-ban is megvalósítható
+de&nbsp;`python`-ban&nbsp;is&nbsp;megvalósítható
 <br>
 
 <br>
 ```py
 <br>
-# Python
+#&nbsp;Python
 <br>
-from dataclasses import dataclass
+from&nbsp;dataclasses&nbsp;import&nbsp;dataclass
 <br>
 
 <br>
 @dataclass
 <br>
-class MyType:
+class&nbsp;MyType:
 <br>
-x: int = 0
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;int&nbsp;=&nbsp;0
 <br>
-y: int = 0
+&nbsp;&nbsp;&nbsp;&nbsp;y:&nbsp;int&nbsp;=&nbsp;0
 <br>
 
 <br>
-x: MyType = MyType(126, 12)
+x:&nbsp;MyType&nbsp;=&nbsp;MyType(126,&nbsp;12)
 <br>
 ```</section><hr></body>
 </html>

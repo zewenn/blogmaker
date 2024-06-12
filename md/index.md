@@ -24,12 +24,16 @@ Nyilvánvaló, hogy minden változó számként való kezelése nem a legátlát
 
 ### Integer - egész szám
 
-- **Signed Integer:** Lehet negatív, ezt az első bit jelzi.
-  ```txt
-  0xxx xxxx -> pozitív szám
-  1xxx xxxx -> Negatív szám
-  ```
-- **Unsigned Integer:** Nem lehet negatív, ezt az első bit jelzi.
+#### Signed Integer:
+Lehet negatív, ezt az első bit jelzi.
+
+```txt
+0xxx xxxx -> pozitív szám
+1xxx xxxx -> Negatív szám
+```
+
+#### Unsigned Integer:
+Nem lehet negatív, ezt az első bit jelzi.
 
 Python demonstráció:
 

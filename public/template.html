@@ -15,7 +15,27 @@
         if (el.innerText) {
           el.innerHTML = marked.parse(el.innerText);
         }
+
+        el.addEventListener("click", () => {
+          el.classList.contains("hidden")
+            ? el.classList.remove("hidden")
+            : el.classList.add("hidden");
+        });
       }
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css"
+    />
+    <script type="module">
+      import hljs from "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/highlight.min.js";
+      //  and it's easy to individually load additional languages
+      // import go from "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/languages/go.min.js";
+      // hljs.registerLanguage("go", go);
+      document.querySelectorAll('code').forEach(el => {
+        // then highlight each
+        hljs.highlightElement(el);
+      });
     </script>
   </head>
   <body></body>
