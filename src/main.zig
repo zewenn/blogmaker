@@ -48,8 +48,11 @@ pub fn main() !void {
 
             // std.debug.print("[{d}] ", .{index});
             for (0.., html_contents.items) |index, line| {
+                const parsed_line = try html_handler.parse_line(line, &allocator);
+                defer allocator.free(parsed_line);
+
                 std.debug.print("{d} - ", .{index});
-                std.debug.print("{s}\n", .{line});
+                std.debug.print("{s}\n", .{parsed_line});
             }
         }
     }
