@@ -157,6 +157,19 @@ pub fn parse_line(line: []const u8, allocator: *std.mem.Allocator) ![]u8 {
         const updated = try add_tags(allocator, res, "#", "<h1>", "</h1>");
         allocator.free(res);
         res = updated;
+    } else {
+        const start_t = "<p>";
+        const end_t = "</p>";
+
+        const y = try allocator.alloc(u8, res.len + start_t.len + end_t.len);
+
+        std.mem.copyForwards(u8, y[0..start_t.len], start_t);
+        std.mem.copyForwards(u8, y[start_t.len .. start_t.len + res.len], res);
+        std.mem.copyForwards(u8, y[start_t.len + res.len .. start_t.len + res.len + end_t.len], end_t);
+
+        // const updated = try add_tags(allocator, res, "#", "<h1>", "</h1>");
+        allocator.free(res);
+        res = y;
     }
 
     return res;
