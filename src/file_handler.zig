@@ -18,6 +18,10 @@ pub fn get_files(dir_path: []const u8, files_list: *std.ArrayList([]const u8), a
     }
 }
 
+pub fn save_file(path: []const u8, content: []const u8) !void {
+    try std.fs.cwd().writeFile(path, content);
+}
+
 pub fn try_create_dir(path: []const u8) !void {
     std.fs.cwd().makeDir(path) catch |err| switch (err) {
         error.PathAlreadyExists => {

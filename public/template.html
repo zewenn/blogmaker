@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{s}</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    {s}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> -->
+    <link rel="stylesheet" href="style.css" />
+    <script defer type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+
+      const x = document.querySelectorAll("section");
+      for (const el of x) {
+        console.log(el, x);
+        if (el.innerText) {
+          el.innerHTML = marked.parse(el.innerText);
+        }
+      }
+    </script>
+  </head>
+  <body></body>
 </html>

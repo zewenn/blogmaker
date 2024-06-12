@@ -1,195 +1,410 @@
-# Változók
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The blog</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> -->
+    <link rel="stylesheet" href="style.css" />
+    <script defer type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
+      const x = document.querySelectorAll("section");
+      for (const el of x) {
+        console.log(el, x);
+        if (el.innerText) {
+          el.innerHTML = marked.parse(el.innerText);
+        }
+      }
+    </script>
+  </head>
+  <body><section class="post p-asd" id="asd">asdasd</section><hr><section class="post p-index" id="index"># Változók
+<br>
+
+<br>
 Ebben az anaygban változók fajtáiról, azoknak memóriában való tárolásáról és kezeléséről lesz szó.
+<br>
 
+<br>
 ## Alapok
+<br>
 
+<br>
 **Minden**, ismétlem, **minden** - _számolható értékkel rendelkező_ - váltózó egy szám. Amikor egy `boolean`-ről vagy egy `char`-ról beszélünk, igazából csak számokat kezelünk. Például minden `boolean` - tehát igaz/hamis érték - felírható 0-ás vagy 1-es értékkel is.
+<br>
 
+<br>
 Ennek demonstrálásához nem kell mélyre ásni, `python`-ban is látható:
+<br>
 
+<br>
 ```py
+<br>
 if 1:
-    print("Hello world")
+<br>
+print("Hello world")
+<br>
 # kiírja, hogy "Hello world"
+<br>
 
+<br>
 if 0:
-    print("not hello")
+<br>
+print("not hello")
+<br>
 # Nem történik semmi
+<br>
 ```
+<br>
 
+<br>
 ## Egyszerű Típusok
+<br>
 
+<br>
 Nyilvánvaló, hogy minden változó számként való kezelése nem a legátláthatóbb megoldás (_lásd: Hungarian Notation_), ezért a modern, programozási nyelvek különböző változó típusokat használnak.
+<br>
 
+<br>
 ### Integer - egész szám
+<br>
 
+<br>
 - **Signed Integer:** Lehet negatív, ezt az első bit jelzi.
-  ```txt
-  0xxx xxxx -> pozitív szám
-  1xxx xxxx -> Negatív szám
-  ```
-- **Unsigned Integer:** Nem lehet negatív, ezt az első bit jelzi.
-
-Python demonstráció:
-
-```py
-x: int = int(32)
-```
-
-### Float - Lebegőpontos szám ~ racionális szám
-
-IEEE 754 standard alapján implementált lebegőpontos számokkal reprezentáljuk a racionális számokat.
-
-A lebegőpointos számok mindig **signed**, tehát előjeles változók:
-
+<br>
 ```txt
-                   IEEE 745
-                   ˙˙˙˙˙˙˙˙
-   x   xxxx xxxx   xxxxxxxxxxxxxxxxxxxxxxx
-   |   ˙˙˙˙|˙˙˙˙   ˙˙˙˙˙˙˙˙˙˙˙|˙˙˙˙˙˙˙˙˙˙˙
- Előjel  Exponens         Mantissza
-  (S)     (E)                (M)
-
-                 f = 1.M × 2^E
-
+<br>
+0xxx xxxx -> pozitív szám
+<br>
+1xxx xxxx -> Negatív szám
+<br>
 ```
+<br>
+- **Unsigned Integer:** Nem lehet negatív, ezt az első bit jelzi.
+<br>
 
+<br>
 Python demonstráció:
+<br>
 
+<br>
 ```py
+<br>
+x: int = int(32)
+<br>
+```
+<br>
+
+<br>
+### Float - Lebegőpontos szám ~ racionális szám
+<br>
+
+<br>
+IEEE 754 standard alapján implementált lebegőpontos számokkal reprezentáljuk a racionális számokat.
+<br>
+
+<br>
+A lebegőpointos számok mindig **signed**, tehát előjeles változók:
+<br>
+
+<br>
+```txt
+<br>
+IEEE 745
+<br>
+˙˙˙˙˙˙˙˙
+<br>
+x   xxxx xxxx   xxxxxxxxxxxxxxxxxxxxxxx
+<br>
+|   ˙˙˙˙|˙˙˙˙   ˙˙˙˙˙˙˙˙˙˙˙|˙˙˙˙˙˙˙˙˙˙˙
+<br>
+Előjel  Exponens         Mantissza
+<br>
+(S)     (E)                (M)
+<br>
+
+<br>
+f = 1.M × 2^E
+<br>
+
+<br>
+```
+<br>
+
+<br>
+Python demonstráció:
+<br>
+
+<br>
+```py
+<br>
 x: float = float(32.332578)
+<br>
 ```
+<br>
 
+<br>
 ### Boolean - Logikai érték / Igazságérték
+<br>
 
+<br>
 A **boolean** typusú áltozók vagy igaz _(1)_ vagy hamis _(0)_ értéket hordoznak. Ilyen értéket létrehozhatunk a `true` és a `false` kulcsszavakkal, illetve **logikai operátorokkal**.
+<br>
 
+<br>
 ```py
+<br>
 x: bool = False # False / Hamis
+<br>
 y: bool = x == False # True / Igaz
+<br>
 z: bool = 5 > 4 # True / Igaz
+<br>
 ```
+<br>
 
+<br>
 ### Char - Karakter
+<br>
 
+<br>
 Egy darab karakter, kódolástól függ a mérete, de a gyakran használt ASCII (_American Standard Character for Information Interchange_) kódolásban `u8`-ként, tehát egy unsigned 8 bit hosszú integer értékként jelenik meg.
+<br>
 
+<br>
 Több karakter összefűzése egy tömbbe vagy listába egy **string**-et,, azaz szöveget ad.
+<br>
 
+<br>
 ### String - Szöveg
+<br>
 
+<br>
 Úgynevezett karakterlánc, melyet `char` változók tömbbe vagy listába helyezésével érünk el.
+<br>
 
+<br>
 ```py
+<br>
 x = ['H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!']
+<br>
 ```
+<br>
 
+<br>
 Srting-ek kezelésére a magasabb szintű programnyelvekben (általában) külön típus is létezik.
+<br>
 
+<br>
 ```py
+<br>
 x: str = "Hello world!"
+<br>
 ```
+<br>
 
+<br>
 De low level, tehát alacsony szintű nyelvekben (C, Zig) ez a luxus nincs meg.
+<br>
 
+<br>
 ```rust
+<br>
 // Zig kód, de csak a rust-lang block-kal volt syntax highlighting
+<br>
 const x: const [3:0]u8 = "asd".*;
+<br>
 ```
+<br>
 
+<br>
 ## Komplex Típusok
+<br>
 
+<br>
 ### Array - Tömb
+<br>
 
+<br>
 Létrehozását követően nem bővíthető, egy változótípust tartalmazó lista. Ennek az adattípusnak nincs _alapértelmezett_ megfelelője `python`-ban.
+<br>
 
+<br>
 ```rust
+<br>
 const x: [?]i32 = [_]i32{1, 2, 3, 4};
+<br>
 ```
+<br>
 
+<br>
 ### (Linked) List - Lista
+<br>
 
+<br>
 Olyan adattípus, melynek minden eleme tartalmazza annak típusát, értékét és egy `pointer`-t a következő elemre. Ennek köszönhetően nem kell ugyan abból a típusból származnia minden elemnek. A lista utolsó eleme következő értékként mindig egy `null` értékre mutat.
+<br>
 
+<br>
 Ezt az adattípust használjuk `python`-ban a mindennapokban.
+<br>
 
+<br>
 ```py
+<br>
 x: list = ["Hello", 0, True, False]
+<br>
 ```
+<br>
 
+<br>
 ### Map / Dictionary
+<br>
 
+<br>
 Kulcs-érték pár eltárárolására alkalmas adattípus. Legtöbb programozási nyelvben kötött az érték és a kulcs típusa is, de `python`-ban nem az.
+<br>
 
+<br>
 ```py
+<br>
 x: dict[str, int | float] = {
-    "x": 0,
-    "y": 1.124
+<br>
+"x": 0,
+<br>
+"y": 1.124
+<br>
 }
+<br>
 ```
+<br>
 
+<br>
 ### Function - Függvény
+<br>
 
+<br>
 Olyan adattípus, mely nem önmagában nem reprezentál értéket, de meghívható; az ekkor megadott paraméterek és programállapot alapján készít új értéket, vagy ad vissza egy már meglevőt.
+<br>
 
+<br>
 ```py
+<br>
 def add(a: int, b: int) -> int:
-    return a + b
+<br>
+return a + b
+<br>
 
+<br>
 z = add(1, 2)
+<br>
 # z == 3
+<br>
 ```
+<br>
 
+<br>
 ### Null / Nullptr / None - Semmi
+<br>
 
+<br>
 Olyan érték, vagy olyan értékre mutató érték, amely nem tartalmaz semmit, nem létezik.
+<br>
 
+<br>
 ```py
+<br>
 # Python
+<br>
 x = None
+<br>
 ```
+<br>
 
+<br>
 ```c
+<br>
 // C
+<br>
 // #define NULL 0
+<br>
 int *x = NULL;
+<br>
 ```
+<br>
 
+<br>
 ```c++
+<br>
 // C++
+<br>
 // "A null pointer constant is an integral constant expression (5.19) rvalue of integer type that evaluates to zero"
+<br>
 int *x = nullptr;
+<br>
 ```
+<br>
 
+<br>
 ### Struct(ure) - *szerkezet*
+<br>
 
+<br>
 Olyan adattípus, amely több alváltozót is tartalmaz. A programozók között véleményeltérések vannak, miszerint szabad-e az imént említett alváltozóknak függvényeknek lenniük (*Object Oriented Programming*), vagy sem (*Functional Programming*). 
+<br>
 
+<br>
 *Ez hatalmas túlegyszerűsítés, és a problémák és nézeteltérések nem állnak meg itt, de itt is kimutatható és megfigyelhetó a szituáció*
+<br>
 
+<br>
 Ez az adattípus főképp alacsonyabb szintű nyelvekben használt;
+<br>
 
+<br>
 ```rust
+<br>
 // Zig
+<br>
 const MyType = struct {
-    x: i32 = 0,
-    y: i32 = 0
+<br>
+x: i32 = 0,
+<br>
+y: i32 = 0
+<br>
 };
+<br>
 
+<br>
 const my_thing: MyType = MyType{ .x = 126, .y = 12 };
+<br>
 ```
+<br>
 
+<br>
 de `python`-ban is megvalósítható
+<br>
 
+<br>
 ```py
+<br>
 # Python
+<br>
 from dataclasses import dataclass
+<br>
 
+<br>
 @dataclass
+<br>
 class MyType:
-    x: int = 0
-    y: int = 0
+<br>
+x: int = 0
+<br>
+y: int = 0
+<br>
 
+<br>
 x: MyType = MyType(126, 12)
-```
+<br>
+```</section><hr></body>
+</html>
